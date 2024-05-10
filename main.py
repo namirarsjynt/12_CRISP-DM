@@ -138,4 +138,277 @@ def main():
 
     elif page == "Model Prediksi":
         st.header("Model Prediksi")
+        file_path = 'gnb.pkl'
+        clf = joblib.load(file_path)
+
+        school = st.selectbox('Sekolah', ['Gabriel Pereira (GP)', 'Mousinho da Silveira (MS)'], index=0)
+        if school == 'Gabriel Pereira (GP)':
+            school = 0
+        else:
+            school = 1
+
+        sex = st.selectbox('Jenis Kelamin', ['Perempuan', 'Laki-laki'], index=0)
+        if sex == 'Perempuan':
+            sex = 0
+        else:
+            sex = 1
+
+        age = st.number_input('Usia', min_value=15, max_value=22, value=15)  
+
+        Medu = st.selectbox('Pendidikan Orang Tua', ['Tidak Ada', 'SD', 'SMP', 'SMA', 'Pendidikan Tinggi'], index=0)
+        if Medu == 'Tidak Ada':
+            Medu = 0
+        elif Medu == 'SD':
+            Medu = 1
+        elif Medu == 'SMP':
+            Medu = 2
+        elif Medu == 'SMA':
+            Medu = 3
+        else:
+            Medu = 4
+
+        Fedu = st.selectbox('Pendidikan Ayah', ['Tidak Ada', 'SD', 'SMP', 'SMA', 'Pendidikan Tinggi'], index=0)
+        if Fedu == 'Tidak Ada':
+            Fedu = 0
+        elif Fedu == 'SD':
+            Fedu = 1
+        elif Fedu == 'SMP':
+            Fedu = 2
+        elif Fedu == 'SMA':
+            Fedu = 3
+        else:
+            Fedu = 4
+
+        traveltime = st.number_input('Waktu Tempuh', value=0)  
+        failures = st.number_input('Kegagalan', value=0)  
+        famrel = st.number_input('Hubungan Keluarga', min_value=1, max_value=5, value=1)  
+        freetime = st.number_input('Waktu Luang', min_value=1, max_value=5, value=1)  
+        goout = st.number_input('Bersenang-senang dengan Teman', min_value=1, max_value=5, value=1)  
+        Dalc = st.number_input('Konsumsi Alkohol pada Hari Kerja', min_value=1, max_value=5, value=1)  
+        Walc = st.number_input('Konsumsi Alkohol pada Akhir Pekan', min_value=1, max_value=5, value=1)  
+        health = st.number_input('Kesehatan', min_value=1, max_value=5, value=1)  
+        absences = st.number_input('Absensi', min_value=0, max_value=93, value=0)  
+        G1 = st.number_input('Nilai Periode Pertama', min_value=0, max_value=20, value=0)  
+        G2 = st.number_input('Nilai Periode Kedua', min_value=0, max_value=20, value=0)  
+
+        address = st.selectbox('Alamat', ['Pedesaan', 'Perkotaan'], index=0)
+        if address == 'Pedesaan':
+            address_R = True
+            address_U = False
+        else:
+            address_R = False
+            address_U = True
+
+        famsize = st.selectbox('Ukuran Keluarga', ['Kurang dari 3', 'Lebih dari atau sama dengan 3'], index=0)
+        if famsize == 'Kurang dari 3':
+            famsize_GT3 = False
+            famsize_LE3 = True
+        else:
+            famsize_GT3 = True
+            famsize_LE3 = False
+
+        Pstatus = st.selectbox('Status Tinggal Orang Tua', ['Terpisah', 'Bersama'], index=0)
+        if Pstatus == 'Terpisah':
+            Pstatus_A = True
+            Pstatus_T = False
+        else:
+            Pstatus_A = False
+            Pstatus_T = True
+
+        Mjob = st.selectbox('Pekerjaan Ibu', ['Di Rumah', 'Perawatan Kesehatan', 'Layanan Sipil', 'Guru', 'Lainnya'], index=0)
+        if Mjob == 'Di Rumah':
+            Mjob_at_home = True
+            Mjob_health = False
+            Mjob_other = False
+            Mjob_services = False
+            Mjob_teacher = False
+        elif Mjob == 'Perawatan Kesehatan':
+            Mjob_at_home = False
+            Mjob_health = True
+            Mjob_other = False
+            Mjob_services = False
+            Mjob_teacher = False
+        elif Mjob == 'Layanan Sipil':
+            Mjob_at_home = False
+            Mjob_health = False
+            Mjob_other = False
+            Mjob_services = True
+            Mjob_teacher = False
+        elif Mjob == 'Guru':
+            Mjob_at_home = False
+            Mjob_health = False
+            Mjob_other = False
+            Mjob_services = False
+            Mjob_teacher = True
+        else:
+            Mjob_at_home = False
+            Mjob_health = False
+            Mjob_other = True
+            Mjob_services = False
+            Mjob_teacher = False
+
+        Fjob = st.selectbox('Pekerjaan Ayah', ['Di Rumah', 'Perawatan Kesehatan', 'Layanan Sipil', 'Guru', 'Lainnya'], index=0)
+        if Fjob == 'Di Rumah':
+            Fjob_at_home = True
+            Fjob_health = False
+            Fjob_other = False
+            Fjob_services = False
+            Fjob_teacher = False
+        elif Fjob == 'Perawatan Kesehatan':
+            Fjob_at_home = False
+            Fjob_health = True
+            Fjob_other = False
+            Fjob_services = False
+            Fjob_teacher = False
+        elif Fjob == 'Layanan Sipil':
+            Fjob_at_home = False
+            Fjob_health = False
+            Fjob_other = False
+            Fjob_services = True
+            Fjob_teacher = False
+        elif Fjob == 'Guru':
+            Fjob_at_home = False
+            Fjob_health = False
+            Fjob_other = False
+            Fjob_services = False
+            Fjob_teacher = True
+        else:
+            Fjob_at_home = False
+            Fjob_health = False
+            Fjob_other = True
+            Fjob_services = False
+            Fjob_teacher = False
+
+        reason = st.selectbox('Alasan Memilih Sekolah', ['Dekat dengan Rumah', 'Reputasi Sekolah', 'Preferensi Kursus', 'Lainnya'], index=0)
+        if reason == 'Dekat dengan Rumah':
+            reason_course = False
+            reason_home = True
+            reason_other = False
+            reason_reputation = False
+        elif reason == 'Reputasi Sekolah':
+            reason_course = False
+            reason_home = False
+            reason_other = False
+            reason_reputation = True
+        elif reason == 'Preferensi Kursus':
+            reason_course = True
+            reason_home = False
+            reason_other = False
+            reason_reputation = False
+        else:
+            reason_course = False
+            reason_home = False
+            reason_other = True
+            reason_reputation = False
+
+        guardian = st.selectbox('Wali', ['Ibu', 'Ayah', 'Lainnya'], index=0)
+        if guardian == 'Ibu':
+            guardian_father = False
+            guardian_mother = True
+            guardian_other = False
+        elif guardian == 'Ayah':
+            guardian_father = True
+            guardian_mother = False
+            guardian_other = False
+        else:
+            guardian_father = False
+            guardian_mother = False
+            guardian_other = True
+
+        studytime = st.selectbox('Waktu Belajar', ['2 to 5 hours', '5 to 10 hours', '<2 hours'], index=0)
+        if studytime == '2 to 5 hours':
+            studytime_2to5 = True
+            studytime_5to10 = False
+            studytime_less2 = False
+        elif studytime == '5 to 10 hours':
+            studytime_2to5 = False
+            studytime_5to10 = True
+            studytime_less2 = False
+        else:
+            studytime_2to5 = False
+            studytime_5to10 = False
+            studytime_less2 = True
+
+        schoolsup = st.selectbox('Dukungan Pendidikan Tambahan', ['Ya', 'Tidak'], index=0)
+        if schoolsup == 'Ya':
+            schoolsup_no = False
+            schoolsup_yes = True
+        else:
+            schoolsup_no = True
+            schoolsup_yes = False
+
+        famsup = st.selectbox('Dukungan Pendidikan Keluarga', ['Ya', 'Tidak'], index=0)
+        if famsup == 'Ya':
+            famsup_no = False
+            famsup_yes = True
+        else:
+            famsup_no = True
+            famsup_yes = False
+
+        paid = st.selectbox('Kelas Tambahan', ['Ya', 'Tidak'], index=0)
+        if paid == 'Ya':
+            paid_no = False
+            paid_yes = True
+        else:
+            paid_no = True
+            paid_yes = False
+
+        activities = st.selectbox('Aktivitas Ekstrakurikuler', ['Ya', 'Tidak'], index=0)
+        if activities == 'Ya':
+            activities_no = False
+            activities_yes = True
+        else:
+            activities_no = True
+            activities_yes = False
+
+        nursery = st.selectbox('Taman Kanak-kanak', ['Ya', 'Tidak'], index=0)
+        if nursery == 'Ya':
+            nursery_no = False
+            nursery_yes = True
+        else:
+            nursery_no = True
+            nursery_yes = False
+
+        higher = st.selectbox('Pendidikan Tinggi', ['Ya', 'Tidak'], index=0)
+        if higher == 'Ya':
+            higher_no = False
+            higher_yes = True
+        else:
+            higher_no = True
+            higher_yes = False
+
+        internet = st.selectbox('Akses Internet', ['Ya', 'Tidak'], index=0)
+        if internet == 'Ya':
+            internet_no = False
+            internet_yes = True
+        else:
+            internet_no = True
+            internet_yes = False
+
+        romantic = st.selectbox('Hubungan Romantis', ['Ya', 'Tidak'], index=0)
+        if romantic == 'Ya':
+            romantic_no = False
+            romantic_yes = True
+        else:
+            romantic_no = True
+            romantic_yes = False
+
+        kategori = st.selectbox('Kategori Usia', ['Dewasa', 'Lansia'], index=0)
+        if kategori == 'Dewasa':
+            kategori_Adult = True
+            kategori_Elderly = False
+        else:
+            kategori_Adult = False
+            kategori_Elderly = True
+
+    if st.button('Predict'):
+        input_data = [[school, sex, age, Medu, Fedu, traveltime, failures, famrel, freetime, goout, Dalc, Walc, health, absences, 
+                        G1, G2, address_R, address_U, famsize_GT3, famsize_LE3, Pstatus_A, Pstatus_T, Mjob_at_home, Mjob_health,
+                        Mjob_other, Mjob_services, Mjob_teacher, Fjob_at_home, Fjob_health, Fjob_other, Fjob_services, Fjob_teacher,
+                        reason_course, reason_home, reason_other, reason_reputation, guardian_father, guardian_mother, guardian_other,
+                        studytime_2to5, studytime_5to10, studytime_less2, schoolsup_no, schoolsup_yes, famsup_no, famsup_yes, paid_no,
+                        paid_yes, activities_no, activities_yes, nursery_no, nursery_yes, higher_no, higher_yes, internet_no,
+                        internet_yes, romantic_no, romantic_yes, kategori_Adult, kategori_Elderly]]
+        result = clf.predict(input_data)
+        st.write('Hasil prediksi skor G3 adalah:', result[0])
 main()
