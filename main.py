@@ -3,15 +3,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from streamlit_option_menu import option_menu
+import joblib
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def load_data():
     return pd.read_csv('student-mat.csv')
 
+def load_data2():
+    return pd.read_csv('data_cleaned.csv')
+
 def main():
     st.title('Prediksi Prestasi Nilai Siswa Berdasarkan Faktor-Faktor Yang Mempengaruhi Menggunakan Model Supervised Learning')
     st.sidebar.title("Selamat Datang!")
+    df = load_data2()
     data = load_data()
     with st.sidebar:
         page = option_menu("Pilih Halaman", ["Informasi Dasar","Distribusi", "Pie Chart", "Bar Chart", "Box Plot", "Model Prediksi"])
