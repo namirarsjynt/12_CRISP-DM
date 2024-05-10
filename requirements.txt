@@ -1,0 +1,9 @@
+streamlit 
+pandas
+datetime
+matplotlib
+joblib
+seaborn
+scikit-learn
+numpy
+streamlit_option_menu
